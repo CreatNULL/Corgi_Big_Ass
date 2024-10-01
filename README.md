@@ -1,6 +1,12 @@
 # Corgi_Big_Ass
 一个fscan、dirsearch、Feroxbuster结果过滤的工具
 
+## 什么时候使用
+- dirsearch 忘记输出到文件
+- feroxbuster 想要过滤结果
+- fscan 输出结果分类
+
+## 界面预览
 ![image](https://github.com/user-attachments/assets/a222bbe3-c02b-4bdd-8529-acedec00a57b)
 
 
