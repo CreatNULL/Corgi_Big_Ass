@@ -2,8 +2,8 @@
 一个fscan、dirsearch、Feroxbuster结果过滤的工具
 
 ## 什么时候使用
-- dirsearch 忘记输出到文件
-- feroxbuster 想要过滤结果
+- dirsearch 忘记指定参数输出到文件将结果复制到程序中，粘贴过滤
+- feroxbuster 想要过滤结果，原本的输出到csv全在一列内，难以过滤
 - fscan 输出结果分类
 
 ## 界面预览
