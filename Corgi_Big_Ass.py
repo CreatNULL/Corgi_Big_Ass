@@ -146,32 +146,32 @@ class FilterApp(QMainWindow):
         layout.addWidget(self.data_input)
 
         # 状态码输入
-        self.status_code_label = QLabel("状态码 (用逗号分隔):")
-        self.status_code_input = QLineEdit()
-        layout.addWidget(self.status_code_label)
-        layout.addWidget(self.status_code_input)
+        self.dirsearch_status_code_label = QLabel("状态码 (用逗号分隔):")
+        self.dirsearch_status_code_input = QLineEdit()
+        layout.addWidget(self.dirsearch_status_code_label)
+        layout.addWidget(self.dirsearch_status_code_input)
 
         # 响应大小输入
         size_layout = QHBoxLayout()
-        self.min_size_label = QLabel("响应最小大小:")
-        self.min_size_input = QLineEdit()
-        self.max_size_label = QLabel("响应最大大小:")
-        self.max_size_input = QLineEdit()
+        self.dirsearch_min_size_label = QLabel("响应最小大小:")
+        self.dirsearch_min_size_input = QLineEdit()
+        self.dirsearch_max_size_label = QLabel("响应最大大小:")
+        self.dirsearch_max_size_input = QLineEdit()
         self.size_unit_input = QComboBox()
         self.size_unit_input.addItems(["B", "KB", "MB", "GB"])  # 添加大小单位选项
-        size_layout.addWidget(self.min_size_label)
-        size_layout.addWidget(self.min_size_input)
+        size_layout.addWidget(self.dirsearch_min_size_label)
+        size_layout.addWidget(self.dirsearch_min_size_input)
         size_layout.addWidget(QLabel("到"))
-        size_layout.addWidget(self.max_size_label)
-        size_layout.addWidget(self.max_size_input)
+        size_layout.addWidget(self.dirsearch_max_size_label)
+        size_layout.addWidget(self.dirsearch_max_size_input)
         size_layout.addWidget(self.size_unit_input)  # 添加单位选择框
         layout.addLayout(size_layout)
 
         # 过滤路径输入
-        self.filter_path_label = QLabel("正则提取路径:")
-        self.filter_path_input = QLineEdit()
-        layout.addWidget(self.filter_path_label)
-        layout.addWidget(self.filter_path_input)
+        self.dirsearch_filter_path_label = QLabel("正则提取路径:")
+        self.dirsearch_filter_path_input = QLineEdit()
+        layout.addWidget(self.dirsearch_filter_path_label)
+        layout.addWidget(self.dirsearch_filter_path_input)
 
         # 过滤按钮
         self.filter_button = QPushButton("过滤")
@@ -205,10 +205,10 @@ class FilterApp(QMainWindow):
         filter_layout.addWidget(self.method_label_ferox)
         filter_layout.addWidget(self.method_input_ferox)
 
-        self.filter_path_label = QLabel("正则提取路径:")
-        self.filter_path_input = QLineEdit()
-        filter_layout.addWidget(self.filter_path_label)
-        filter_layout.addWidget(self.filter_path_input)
+        self.feroxbuster_filter_path_label = QLabel("正则提取路径:")
+        self.feroxbuster_filter_path_input = QLineEdit()
+        filter_layout.addWidget(self.feroxbuster_filter_path_label)
+        filter_layout.addWidget(self.feroxbuster_filter_path_input)
 
         layout.addLayout(filter_layout)
 
@@ -277,11 +277,11 @@ class FilterApp(QMainWindow):
 
     def filter_results_dirsearch(self):
         output_str = self.data_input.toPlainText()
-        status_codes = [sc.strip() for sc in self.status_code_input.text().split(',') if sc.strip()]
-        min_size = self.min_size_input.text()
-        max_size = self.max_size_input.text()
+        status_codes = [sc.strip() for sc in self.dirsearch_status_code_input.text().split(',') if sc.strip()]
+        min_size = self.dirsearch_min_size_input.text()
+        max_size = self.dirsearch_max_size_input.text()
         size_unit = self.size_unit_input.currentText()
-        filter_path = self.filter_path_input.text()
+        filter_path = self.dirsearch_filter_path_input.text()
 
         try:
             min_size = float(min_size) if min_size else None
@@ -317,13 +317,9 @@ class FilterApp(QMainWindow):
                 time = result[0]
                 status_code = result[1]
                 size = result[2]
+                unit = result[3]
                 path = result[4]
                 redirect_path = result[5] if len(result) > 4 else '无'
-                if redirect_path:
-                    full_path = urljoin(target_url, path)
-                else:
-                    full_path = ''
-                print(time, status_code, size, path, redirect_path, full_path)
 
                 # 直接使用原始路径而不改变单位
                 complete_path = urljoin(target_url, path)
@@ -332,7 +328,7 @@ class FilterApp(QMainWindow):
                 self.result_table.insertRow(row_position)
                 self.result_table.setItem(row_position, 0, QTableWidgetItem(time))
                 self.result_table.setItem(row_position, 1, QTableWidgetItem(status_code))
-                self.result_table.setItem(row_position, 2, QTableWidgetItem(f"{size} {size_unit}"))
+                self.result_table.setItem(row_position, 2, QTableWidgetItem(f"{size} {unit}"))
                 self.result_table.setItem(row_position, 3, QTableWidgetItem(path))  # 保持原始路径
                 self.result_table.setItem(row_position, 4, QTableWidgetItem(redirect_path))
                 self.result_table.setItem(row_position, 5, QTableWidgetItem(complete_path))
@@ -367,7 +363,7 @@ class FilterApp(QMainWindow):
                       int(byte_count_max) if byte_count_max else None)
 
         # 路径过滤
-        path_regex = self.filter_path_input.text().strip() or None
+        path_regex = self.feroxbuster_filter_path_input.text().strip() or None
 
         try:
             filtered_results = filter_response_data(
