@@ -32,7 +32,6 @@ def filter(output_str: str, status_codes: list = None, size_filter: tuple = None
             raise ValueError("unit must be one of: 'B', 'KB', 'MB', 'GB'.")
         min_bytes = min_size * unit_multiplier.get(unit, 1)
         max_bytes = max_size * unit_multiplier.get(unit, float('inf'))
-
     patterns = [
         r'\[(\d{2}:\d{2}:\d{2})\]\s*(\d{3})\s*-\s*(\d+)\s*(B|KB|MB|GB)\s*-\s*(.+?\s*-?>?\s*.+)?',
         r'(\d{3})\s+(\d+)\s*(B|KB|MB|GB)\s+(http[^\s]+)\s*(->\s*REDIRECTS TO:\s*(.+))?'
@@ -98,8 +97,8 @@ Task Completed
     """
 
     status_codes = None
-    size_filter = (None, 1, 'B')  # 示例: (None, 1, None) 表示大小在 0 到 1 KB 之间
-    path_regex = 'REPORTS'  # 例子：匹配路径中包含 "desktop.ini" 的情况
+    size_filter = (2, None, 'B')  # 示例: (None, 1, None) 表示大小在 0 到 1 KB 之间
+    path_regex = ''  # 例子：匹配路径中包含 "desktop.ini" 的情况
     filtered_results = filter(output_str, status_codes, size_filter, path_regex)
 
     for result in filtered_results:
