@@ -17,5 +17,3 @@
 ![image](https://github.com/user-attachments/assets/3fe8455a-ff09-4121-ab8f-fc9752f59ebe)
 
 ## 交个朋友吧
-备注：GitHub
-![13f909da0b79b8341ff15a5ce5c194a](https://github.com/user-attachments/assets/eb5a1512-d4b0-4e02-aa59-afc46e94118c)
